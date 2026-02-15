@@ -71,6 +71,17 @@ Return ONLY valid JSON. No markdown. No backticks.
   }
 };
 
+const savePpt = async (req,res)=>{
+  const {topic,htmlContent} =  req.body;
+  
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 export default {
   generateJsonPpt,
+  savePpt
 };
