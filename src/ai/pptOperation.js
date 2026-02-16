@@ -60,8 +60,36 @@ const getAllPPT = async (req, res) => {
   }
 };
 
+export const getSinglePPT = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const ppt = await Ppt.findById(id);
+
+    if (!ppt) {
+      return res.status(404).json({
+        success: false,
+        message: "PPT not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: ppt,
+    });
+  } catch (error) {
+    console.error("Get Single PPT Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch PPT",
+    });
+  }
+};
+
+
 
 export default {
   savePpt,
-  getAllPPT
+  getAllPPT,
+  getSinglePPT
 };
