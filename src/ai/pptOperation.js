@@ -40,6 +40,28 @@ const savePpt = async (req, res) => {
   }
 };
 
+const getAllPPT = async (req, res) => {
+  try {
+    const ppts = await Ppt.find()
+      .select("topic status charCount createdAt ")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: ppts.length,
+      data: ppts,
+    });
+  } catch (error) {
+    console.error("Get All PPT Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch presentations",
+    });
+  }
+};
+
+
 export default {
   savePpt,
+  getAllPPT
 };

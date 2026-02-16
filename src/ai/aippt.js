@@ -7,7 +7,7 @@ const ai = new GoogleGenAI({
 const generateJsonPpt = async (req, res) => {
   try {
     const topic = req.body.topic;
-    console.log(topic)
+    console.log(topic);
 
     if (!topic) {
       return res.status(400).json({
@@ -17,16 +17,32 @@ const generateJsonPpt = async (req, res) => {
     }
 
     const prompt = `
-You are an expert PPT Builder. Generate a high-quality, college-level presentation on the topic: "${topic}".
+You are an expert PPT builder.
 
-REQUIREMENTS:
-1. Create a SINGLE self-contained HTML file.
-2. Include modern CSS for styling and animations within <style> tags.
-3. Include JavaScript for "Next" and "Previous" slide navigation within <script> tags.
-4. The presentation must have at least 5 slides.
+Create a high-quality, college-level presentation on "${topic}" with **visual-first slides**.
+Prefer diagrams, animations, simulations, and visual layouts over long text.
 
-OUTPUT FORMAT:
-Return ONLY valid JSON. No markdown. No backticks.
+REQUIREMENTS
+- Output a SINGLE self-contained HTML file
+- Use only responsive layouts (flex / grid)
+- No fixed heights, no overflow:hidden
+- Content must expand vertically and remain fully visible
+- Navigation (Next / Previous) must be in a footer BELOW content
+- Must work cleanly inside an iframe (no scaling hacks)
+- If diagrams are needed, build them using HTML + CSS (no images)
+
+DESIGN
+- Center content with max-width (900–1100px)
+- Adequate padding (24–40px)
+- Allow vertical scrolling when needed
+
+FUNCTIONAL
+- Include CSS in <style>
+- Include JS for slide navigation
+- Minimum 5 slides
+
+OUTPUT
+Return ONLY valid JSON:
 {
   "topic": "${topic}",
   "status": "success",
@@ -43,13 +59,11 @@ Return ONLY valid JSON. No markdown. No backticks.
         },
       ],
       config: {
-        systemInstruction:
-          "You are a JSON generator. Output ONLY valid JSON.",
+        systemInstruction: "You are a JSON generator. Output ONLY valid JSON.",
       },
     });
 
-    const rawText =
-      response.candidates?.[0]?.content?.parts?.[0]?.text;
+    const rawText = response.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!rawText) {
       throw new Error("Empty response from Gemini");
@@ -71,17 +85,6 @@ Return ONLY valid JSON. No markdown. No backticks.
   }
 };
 
-const savePpt = async (req,res)=>{
-  const {topic,htmlContent} =  req.body;
-  
-  try {
-    
-  } catch (error) {
-    
-  }
-}
-
 export default {
   generateJsonPpt,
-  savePpt
 };
