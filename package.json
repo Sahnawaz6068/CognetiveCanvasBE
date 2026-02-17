@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^1.41.0",
+    "bcryptjs": "^3.0.3",
     "child_process": "^1.0.2",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
